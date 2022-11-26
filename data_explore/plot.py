@@ -3,6 +3,25 @@ import seaborn as sns
 import pandas as pd
 
 
+def plot_target(data, col):
+    """draw taget distribution with pie
+
+    Parameters
+    ----------
+    col : str
+        target
+    """
+    # Figure size
+    plt.figure(figsize=(6, 6))
+    # Pie plot
+    data[col].value_counts().plot.pie(explode=[0.1, 0.1],
+                                      autopct='%1.1f%%',
+                                      shadow=True,
+                                      textprops={
+                                          'fontsize': 16
+                                      }).set_title("Target distribution")
+
+
 def plot_unique(df,
                 features,
                 figsize=(10, 7),

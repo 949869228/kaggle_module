@@ -4,10 +4,10 @@ import os
 import seaborn as sns
 
 
-def get_files(path):
+def show_files(path):
     """列举某个目录下所有文件及其大小
     """
-    print('# File sizes')
+    print('File name'.ljust(30), ' File sizes')
     for f in os.listdir(path):
         if 'zip' not in f:
             print(
@@ -42,3 +42,42 @@ def detect_imbalance(df, target):
         #在柱状图上绘制该类别的数量
         f.text(row, col, col, color="black", ha="center")
     print("negative samples/ postive samples : ", y[0] / y[1])
+
+
+def get_dtypes(data, drop_col=[]):
+    """Return the dtypes for each column of a pandas Dataframe
+
+    Parameters
+    ----------
+    data : pandas Dataframe
+
+    drop_col : columns to omit in a list
+
+    Returns
+    -------
+    str_var_list, num_var_list, all_var_list
+    
+    """
+
+    name_of_col = list(data.columns)
+    num_var_list = []
+    str_var_list = []
+    all_var_list = []
+
+    str_var_list = name_of_col.copy()
+    for var in name_of_col:
+        # check if column belongs to numeric type
+        if (data[var].dtypes in (np.int, np.int64, np.uint, np.int32, np.float,
+                                 np.float64, np.float32, np.double)):
+            str_var_list.remove(var)
+            num_var_list.append(var)
+    # drop the omit column from list
+    for var in drop_col:
+        if var in str_var_list:
+            str_var_list.remove(var)
+        if var in num_var_list:
+            num_var_list.remove(var)
+
+    all_var_list.extend(str_var_list)
+    all_var_list.extend(num_var_list)
+    return str_var_list, num_var_list, all_var_list
