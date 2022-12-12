@@ -39,3 +39,11 @@ def reduce_mem_usage(df, verbose=True):
         print('Mem. usage decreased to {:5.2f} Mb ({:.1f}% reduction)'.format(
             end_mem, 100 * (start_mem - end_mem) / start_mem))
     return df
+
+
+def cat2int(data, col):
+    """将类别特征编码成数字，空缺值编码成-1
+    """
+    for fea in col:
+        data[fea] = pd.factorize(data[fea])[0]
+    return data

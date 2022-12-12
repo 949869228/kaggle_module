@@ -14,14 +14,11 @@ def lgb_model(params=None,
               y=None,
               columns=None,
               early_stopping_rounds=200,
-              cols=None,
               categorical_feature=None):
 
     folds = cv
-    if cols == None:
+    if not columns:
         columns = list(X.columns)
-    else:
-        columns = cols
     splits = folds.split(X[columns], y)
     y_oof = np.zeros(X.shape[0])
     score = 0

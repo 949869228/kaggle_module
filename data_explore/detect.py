@@ -16,7 +16,7 @@ def show_files(path):
                           1000000, 2)) + 'MB')
 
 
-def detect_null(df, limit=10):
+def detect_null(df, limit=None):
     """缺失值情况分析
     """
     missing_values_count = df.isnull().sum()
@@ -24,7 +24,11 @@ def detect_null(df, limit=10):
     missing_value = pd.concat([missing_values_count, missing_values_rate],
                               axis=1)
     missing_value.columns = ["null_count", "null_rate"]
-    print(missing_value[0:limit])
+    missing_value = missing_value.sort_values(by='null_rate')
+    if limit is None:
+        print(missing_value)
+    else:
+        print(missing_value[0:limit])
     total_cells = np.product(df.shape)
     total_missing = missing_values_count.sum()
     print("----------")
